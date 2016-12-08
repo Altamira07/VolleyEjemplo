@@ -32,35 +32,41 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         txt = (TextView) findViewById(R.id.tvPrueba);
         txt.setText("Holi");
+        //Ejecucion de peticiones
         RequestQueue queue = Volley.newRequestQueue(this);
+        //Se hace la peticion, se pide el metodo (GET,PUT,POST,DELETE), la url, el error, y la respuesta
         StringRequest stringRequest = new StringRequest(Request.Method.GET,url ,
-                new Response.Listener<String>() {
+                //Respueta de la peticion
+                new Response.Listener<String>()
+                {
                     @Override
                     public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
 
                         txt.setText(response);
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                String message ="";
-                if (volleyError instanceof NetworkError) {
-                    message = "Cannot connect to Internet...Please check your connection!";
-                } else if (volleyError instanceof ServerError) {
-                    message = "The server could not be found. Please try again after some time!!";
-                } else if (volleyError instanceof AuthFailureError) {
-                    message = "Cannot connect to Internet...Please check your connection!";
-                } else if (volleyError instanceof ParseError) {
-                    message = "Parsing error! Please try again after some time!!";
-                } else if (volleyError instanceof NoConnectionError) {
-                    message = "Cannot connect to Internet...Please check your connection!";
-                } else if (volleyError instanceof TimeoutError) {
-                    message = "Connection TimeOut! Please check your internet connection.";
-                }
-                txt.setText(message);
-            }
-        }){
+                },
+                //Sino se pudo hacer la respuesta manda los siguientes errores
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        String message ="";
+                        if (volleyError instanceof NetworkError) {
+                            message = "Cannot connect to Internet...Please check your connection!";
+                        } else if (volleyError instanceof ServerError) {
+                            message = "The server could not be found. Please try again after some time!!";
+                        } else if (volleyError instanceof AuthFailureError) {
+                            message = "Cannot connect to Internet...Please check your connection!";
+                        } else if (volleyError instanceof ParseError) {
+                            message = "Parsing error! Please try again after some time!!";
+                        } else if (volleyError instanceof NoConnectionError) {
+                            message = "Cannot connect to Internet...Please check your connection!";
+                        } else if (volleyError instanceof TimeoutError) {
+                            message = "Connection TimeOut! Please check your internet connection.";
+                        }
+                        txt.setText(message);
+                    }
+            }){
+            //Se puden las cabeceras (autenticacion) etc
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
